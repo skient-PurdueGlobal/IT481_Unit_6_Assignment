@@ -2,11 +2,11 @@
 
 namespace IT481_Unit_6_Assignment
 {
-    class Program
+    class IT481_Unit_6_Assignment
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            //Console.WriteLine("Hello World!");
         }
     }
 }
