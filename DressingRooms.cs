@@ -25,9 +25,9 @@ namespace IT481_Unit_6_Assignment
         private static Semaphore availableRooms = new Semaphore(initialCount: 0, maximumCount: rooms);
 
         //Methods
-        public void RequestRoom()
+        public void RequestRoom(int c, int i)
         {
-            availableRooms.WaitOne();
+            //availableRooms.WaitOne();
         }
     }
 }
