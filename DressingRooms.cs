@@ -11,23 +11,49 @@ namespace IT481_Unit_6_Assignment
         //Variables
         private static int rooms;
 
+        //Semaphore
+        private static Semaphore availableRooms;
+
         //Constructors
         public DressingRooms()
         {
             rooms = 3;
         }
-        public DressingRooms(int r)
+        public DressingRooms(int r, int c)
         {
             rooms = r;
+            availableRooms = new Semaphore(0, rooms);
+
+            //Create customers as specified.
+//            for (int i = 0; i < c; i++)
+//            {
+//                Random nItem = new Random();
+//                int numItems = nItem.Next(0, maxValue));
+//
+//                //Generate random number of items.
+//                if (numItems == 0)
+//                {
+//                    //numItems
+//                }
+//
+                //Create new customer and thread.
+//                new Customer(i + 1, numItems);
+//            }
+
+//            Thread.Sleep(500);
+
+//            availableRooms.Release();
+//            Console.WriteLine("Customer " + c + " has left the dressing room.");
         }
-
-        //Semaphore
-        private static Semaphore availableRooms = new Semaphore(initialCount: 0, maximumCount: rooms);
-
         //Methods
-        public void RequestRoom(int c, int i)
+        public void RequestRoom(int c)
         {
-            //availableRooms.WaitOne();
+            Console.WriteLine("Customer " + c + " is waiting on a dressing room");
+
+            availableRooms.WaitOne();
+
+            Console.WriteLine("Customer " + c + " has entered a dressing room");
+            
         }
     }
 }
