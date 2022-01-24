@@ -10,6 +10,10 @@ namespace IT481_Unit_6_Assignment
     {
         //Variables
         private static int rooms;
+        private static int maxItems = 6;
+        public int items = 0;
+        public double waitTime = 0;
+        public double usageTime = 0;
 
         //Semaphore
         private static Semaphore availableRooms;
@@ -19,41 +23,49 @@ namespace IT481_Unit_6_Assignment
         {
             rooms = 3;
         }
-        public DressingRooms(int r, int c)
+        public DressingRooms(int r)
         {
             rooms = r;
-            availableRooms = new Semaphore(0, rooms);
-
-            //Create customers as specified.
-//            for (int i = 0; i < c; i++)
-//            {
-//                Random nItem = new Random();
-//                int numItems = nItem.Next(0, maxValue));
-//
-//                //Generate random number of items.
-//                if (numItems == 0)
-//                {
-//                    //numItems
-//                }
-//
-                //Create new customer and thread.
-//                new Customer(i + 1, numItems);
-//            }
-
-//            Thread.Sleep(500);
-
-//            availableRooms.Release();
-//            Console.WriteLine("Customer " + c + " has left the dressing room.");
+            availableRooms = new Semaphore(rooms, rooms);
         }
-        //Methods
-        public void RequestRoom(int c)
-        {
-            Console.WriteLine("Customer " + c + " is waiting on a dressing room");
 
+        //Methods
+        public void RequestRoom()
+        {
+            int ClothingItems = 0;
+
+            //Random number of items generator.
+            Random nItems = new Random();
+            if (ClothingItems == 0)
+            {
+                ClothingItems = nItems.Next(1, maxItems);
+            }
+
+            //Check for max items per store policy
+            if (ClothingItems > 6)
+            {
+                //Console.WriteLine("Customer over max allowed items.");
+                //ClothingItems = 6;
+            }
+
+            DateTime startWait = DateTime.Now;
             availableRooms.WaitOne();
 
-            Console.WriteLine("Customer " + c + " has entered a dressing room");
+            //Create customer.
+            Customer cust = new Customer(ClothingItems);
+            items += ClothingItems;
+
+            DateTime endWait = DateTime.Now;
+            TimeSpan ts = endWait - startWait;
+            waitTime += ts.TotalMilliseconds;
+
+            Console.WriteLine("-->" + Thread.CurrentThread.Name + " has entered a dressing room with " + ClothingItems + " items after waiting " + String.Format("{0:0.00}", ts.TotalMilliseconds) + " milliseconds.");
+            Thread.Sleep(cust.totalTime);
             
+            Console.WriteLine();
+            Console.WriteLine("<--" + Thread.CurrentThread.Name + " has left the dressing room after " + (cust.totalTime) + " milliseconds.");
+            usageTime += cust.totalTime;
+            availableRooms.Release();
         }
     }
 }

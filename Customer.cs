@@ -8,26 +8,23 @@ namespace IT481_Unit_6_Assignment
     public class Customer
     {
         //Variables
-        Thread t;
-        int numItems;
- 
+        public int ClothingItems = 0;
+        public int totalTime = 0;
+        
         //Constructors
         public Customer() { }
-        public Customer(int c, int nItems)
+        public Customer(int NumberOfItems)
         {
-            numItems = nItems;
+            ClothingItems = NumberOfItems;
 
-            t = new Thread(this.Try_On);
-            t.Name = "Customer " + c.ToString();
-
-            t.Start();
+            for (int i = 1; i <= ClothingItems; i++)
+            {
+                //Create random timer for time to change clothes
+                Random time = new Random();
+                totalTime += time.Next(60, 180); 
+            }
         }
 
         //Methods
-        public void Try_On()
-        {
-
-            Console.WriteLine(t.Name + " has " + numItems + " items to try on.");
-        }
     }
 }
